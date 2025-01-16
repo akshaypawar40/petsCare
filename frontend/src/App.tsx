@@ -1,16 +1,27 @@
-import React from "react";
+import React, { FC } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import necessary components
+import HomeScreen from "./components/HomeScreen";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import About from "./components/About";
+import Services from "./components/Services";
 
-interface sonso {
-  name: string;
-  id: number;
-}
-
-const App: React.FC<sonso> = ({ name, id }) => {
+const App: FC = () => {
   return (
-    <div className="h-screen flex items-center justify-center bg-black text-white font-extrabold text-4xl">
-      <h1>{name}</h1>
-      <h1>Hello, World!</h1>
-    </div>
+    <Router>
+      <div className="h-screen flex items-center w-full flex-col font-extrabold text-4xl">
+        <Header />
+
+        {/* Define your routes here */}
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+        </Routes>
+
+        <Footer />
+      </div>
+    </Router>
   );
 };
 
