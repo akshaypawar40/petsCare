@@ -39,7 +39,7 @@ const Services: React.FC = () => {
               >
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                    {service._id}
+                    {service.title}
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed mb-6">
                     {service.description}

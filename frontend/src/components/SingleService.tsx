@@ -18,7 +18,7 @@ const SingleService: React.FC = () => {
   }, [dispatch, servid]);
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-6 py-8 mt-20">
       {SingleService ? (
         <div className="bg-gray-800 text-white rounded-lg shadow-lg p-6">
           <h2 className="text-3xl font-semibold mb-4">{SingleService.title}</h2>
