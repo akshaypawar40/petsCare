@@ -46,10 +46,10 @@ const Header: React.FC = () => {
             Services
           </Link>
           <Link
-            to="/contact"
+            to="/doctors"
             className="text-sm font-medium tracking-wide uppercase hover:text-teal-300 transition-transform transform hover:scale-105"
           >
-            Contact
+            Doctors
           </Link>
           {userInfo ? (
             <div className="relative">

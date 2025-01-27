@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { fetchSingleService } from "../services/adminServices";
-import { Link } from "react-router-dom";
 
 const SingleService: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,7 +26,6 @@ const SingleService: React.FC = () => {
           <p className="text-blue-400 font-semibold mb-4">
             Price: ${SingleService.price}
           </p>
-          <Link to="/doctors">Doctors</Link>
         </div>
       ) : (
         <p className="text-center text-gray-300">Loading service details...</p>
