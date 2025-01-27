@@ -1,28 +1,4 @@
 const pets = [
- 
-  {
-    name: "Prince",
-    type: "Dog",
-    breed: "Rottweiler",
-    age: 4,
-    gender: "Male",
-    vaccinationRecords: [
-      {
-        vaccineName: "Rabies",
-        dateAdministered: new Date("2023-06-20"),
-        nextDueDate: new Date("2024-06-20"),
-      },
-      {
-        vaccineName: "Distemper",
-        dateAdministered: new Date("2023-05-15"),
-        nextDueDate: new Date("2024-05-15"),
-      },
-    ],
-    isNeutered: false,
-    notes: "Loyal and protective, enjoys long walks and training sessions.",
-    petImage: "/images/rotweiller.jpg", // Replace with the actual image URL or path
-  },
-
   {
     name: "Shadow",
     type: "Dog",
@@ -47,8 +23,9 @@ const pets = [
       },
     ],
     isNeutered: true,
-    notes: "Highly intelligent and energetic, loves obedience training and playing fetch.",
-    petImage: "/images/shepherd.jpg", // Replace with the actual image URL or path
+    notes:
+      "Highly intelligent and energetic, loves obedience training and playing fetch.",
+    image: "/images/shepherd.jpg", // Replace with the actual image URL or path
   },
 
   {
@@ -76,9 +53,9 @@ const pets = [
     ],
     isNeutered: true,
     notes: "Friendly and outgoing, loves swimming and playing fetch.",
-    petImage: "/images/labrodor.jpg", // Replace with the actual image URL or path
+    image: "/images/labrodor.jpg", // Replace with the actual image URL or path
   },
-  
+
   {
     name: "Max",
     type: "Cat",
@@ -103,8 +80,9 @@ const pets = [
       },
     ],
     isNeutered: true,
-    notes: "Gentle and affectionate, enjoys lounging by windows and playing with feather toys.",
-    petImage: "/images/max.jpg", // Replace with the actual image URL or path
+    notes:
+      "Gentle and affectionate, enjoys lounging by windows and playing with feather toys.",
+    image: "/images/max.jpg", // Replace with the actual image URL or path
   },
 
   {
@@ -131,8 +109,9 @@ const pets = [
       },
     ],
     isNeutered: true,
-    notes: "Very vocal and loves attention. Enjoys climbing and playing with interactive toys.",
-    petImage: "/images/milo.jpg", // Replace with the actual image URL or path
+    notes:
+      "Very vocal and loves attention. Enjoys climbing and playing with interactive toys.",
+    image: "/images/milo.jpg", // Replace with the actual image URL or path
   },
 
   {
@@ -159,12 +138,33 @@ const pets = [
       },
     ],
     isNeutered: true,
-    notes: "Affectionate and curious, enjoys warmth and cuddles. Needs regular skin care due to lack of fur.",
-    petImage: "/images/sphynx.jpg", // Replace with the actual image URL or path
-  }
-  
+    notes:
+      "Affectionate and curious, enjoys warmth and cuddles. Needs regular skin care due to lack of fur.",
+    image: "/images/sphynx.jpg", // Replace with the actual image URL or path
+  },
 
-  ];
-  
-  export default pets;
-  
+  {
+    name: "Prince",
+    type: "Dog",
+    breed: "Rottweiler",
+    age: 4,
+    gender: "Male",
+    vaccinationRecords: [
+      {
+        vaccineName: "Rabies",
+        dateAdministered: new Date("2023-06-20"),
+        nextDueDate: new Date("2024-06-20"),
+      },
+      {
+        vaccineName: "Distemper",
+        dateAdministered: new Date("2023-05-15"),
+        nextDueDate: new Date("2024-05-15"),
+      },
+    ],
+    isNeutered: false,
+    notes: "Loyal and protective, enjoys long walks and training sessions.",
+    image: "/images/Rotweiler.jpg", // Replace with the actual image URL or path
+  },
+];
+
+export default pets;

@@ -39,6 +39,7 @@
     "passport": "^0.7.0",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
     "service": "^0.1.4",
     "start": "^5.1.0",
     "sudo": "^1.0.3"

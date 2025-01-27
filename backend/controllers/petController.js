@@ -1,17 +1,28 @@
 import asyncHandler from "express-async-handler";
 import Pet from "../models/petModel.js";
+import generateToken from "../utils/generateToken.js"; // Assuming you have this utility function
 
 // @desc    Create a new pet
 // @route   POST /api/pets
 // @access  Private
 const createPet = asyncHandler(async (req, res) => {
   try {
-    const { name, type, breed, age, gender, vaccinationRecords, isNeutered, notes, petImage } = req.body;
+    const {
+      name,
+      type,
+      breed,
+      age,
+      gender,
+      vaccinationRecords,
+      isNeutered,
+      notes,
+      petImage,
+    } = req.body;
 
     if (!name || !type || !breed || !age || !gender) {
       return res.status(400).json({
         success: false,
-        message: "All required fields must be filled."
+        message: "All required fields must be filled.",
       });
     }
 
@@ -38,14 +49,14 @@ const createPet = asyncHandler(async (req, res) => {
     res.status(500).json({
       success: false,
       message: "An error occurred while creating the pet.",
-      error: error.message
+      error: error.message,
     });
   }
 });
 
 // @desc    Get all pets
 // @route   GET /api/pets
-// @access  Private
+// @access  Public
 const getPets = asyncHandler(async (req, res) => {
   try {
     const pets = await Pet.find({});
@@ -58,42 +69,37 @@ const getPets = asyncHandler(async (req, res) => {
     res.status(500).json({
       success: false,
       message: "An error occurred while retrieving pets.",
-      error: error.message
+      error: error.message,
     });
   }
 });
 
 // @desc    Get a single pet by ID
 // @route   GET /api/pets/:id
-// @access  Private
+// @access  Public
 const getPetById = asyncHandler(async (req, res) => {
   try {
+    // Attempt to find the pet by ID
     const pet = await Pet.findById(req.params.id);
 
-    if (!pet) {
-      return res.status(404).json({
+    if (pet) {
+      res.status(200).json({
+        success: true,
+        message: "Pet retrieved successfully.",
+        data: pet,
+      });
+    } else {
+      res.status(404).json({
         success: false,
-        message: "Pet not found."
+        message: "Pet not found. Please check the ID and try again.",
       });
     }
-
-    if (pet.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({
-        success: false,
-        message: "Not authorized to access this pet."
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Pet retrieved successfully.",
-      data: pet,
-    });
-  } catch (error) {
+  } catch (err) {
+    console.error("Error retrieving pet:", err.message);
     res.status(500).json({
       success: false,
       message: "An error occurred while retrieving the pet.",
-      error: error.message
+      error: err.message,
     });
   }
 });
@@ -103,21 +109,31 @@ const getPetById = asyncHandler(async (req, res) => {
 // @access  Private
 const updatePet = asyncHandler(async (req, res) => {
   try {
-    const { name, type, breed, age, gender, vaccinationRecords, isNeutered, notes, petImage } = req.body;
+    const {
+      name,
+      type,
+      breed,
+      age,
+      gender,
+      vaccinationRecords,
+      isNeutered,
+      notes,
+      petImage,
+    } = req.body;
 
     const pet = await Pet.findById(req.params.id);
 
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: "Pet not found."
+        message: "Pet not found.",
       });
     }
 
     if (pet.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to update this pet."
+        message: "Not authorized to update this pet.",
       });
     }
 
@@ -141,7 +157,7 @@ const updatePet = asyncHandler(async (req, res) => {
     res.status(500).json({
       success: false,
       message: "An error occurred while updating the pet.",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -156,27 +172,27 @@ const deletePet = asyncHandler(async (req, res) => {
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: "Pet not found."
+        message: "Pet not found.",
       });
     }
 
     if (pet.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to delete this pet."
+        message: "Not authorized to delete this pet.",
       });
     }
 
     await pet.deleteOne();
     res.status(200).json({
       success: true,
-      message: "Pet Deleted successfully."
+      message: "Pet Deleted successfully.",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "An error occurred while deleting the pet.",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -191,14 +207,14 @@ const getVaccinationRecords = asyncHandler(async (req, res) => {
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: "Pet not found."
+        message: "Pet not found.",
       });
     }
 
     if (pet.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to access vaccination records."
+        message: "Not authorized to access vaccination records.",
       });
     }
 
@@ -211,7 +227,7 @@ const getVaccinationRecords = asyncHandler(async (req, res) => {
     res.status(500).json({
       success: false,
       message: "An error occurred while retrieving vaccination records.",
-      error: error.message
+      error: error.message,
     });
   }
 });
