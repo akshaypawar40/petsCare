@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";         // Ensure correct path to userSlice
 import petsReducer from "./petsSlice";         // Ensure correct path to petsSlice
 import serviceReducer from "./serviceSlice";   // Ensure correct path to serviceSlice
+import doctorReducer from "./doctorSlice";
 
 
 // Middleware to sync local storage with Redux state
@@ -24,7 +25,9 @@ export const store = configureStore({
   reducer: {
     user: userReducer,              // Attach userSlice reducer
     pets: petsReducer,              // Attach petsSlice reducer
-    services: serviceReducer        // Attach serviceSlice reducer
+    services: serviceReducer,     // Attach serviceSlice reducer
+    doctor:doctorReducer,
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageMiddleware), // Add custom middleware
