@@ -13,6 +13,8 @@ import UserProfile from "./components/UserProfile";
 import EditProfile from "./components/EditProfile";
 import PetDetail from "./components/PetDetail";
 import CreatePet from "./components/CreatePet";
+import SingleService from "./components/SingleService";
+
 const App: FC = () => {
   return (
     <Router>
@@ -43,6 +45,7 @@ const App: FC = () => {
             }
           />
           <Route path="/create-pet" element={<CreatePet />} />
+          <Route path="/service/:servid" element={<SingleService />} />
         </Routes>
         <Footer />
       </div>
