@@ -1,41 +1,77 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const AboutUs: React.FC = () => {
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-8">
-        About Us
-      </h2>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16">
+      {/* Heading Animation */}
+      <motion.h2
+        className="text-3xl sm:text-4xl font-bold text-center text-black mb-8"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        About petsCare Platform
+      </motion.h2>
 
-      {/* Who We Are Section */}
-      <section className="mb-12">
-        <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">
-          Who We Are
-        </h3>
-        <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
-          At <span className="text-teal-400 font-bold">petsCare</span>, we are
-          committed to delivering exceptional care and services for your pets.
-          Since our founding in 2010, we have been dedicated to enhancing the
-          lives of pets and their owners through professional grooming, walking,
-          sitting, and veterinary care. Our team’s unwavering passion for
-          animals drives us to create a safer, happier, and more enriching
-          experience for pets and their families.
-        </p>
-      </section>
+      {/* Content Animation */}
+      <motion.div
+        className="space-y-6"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.3, // Staggered animation for child elements
+            },
+          },
+        }}
+      >
+        <motion.p
+          className="text-gray-600 text-base sm:text-lg leading-relaxed font-semibold"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.8 }}
+        >
+          At petsCare, we believe that pets are more than just companions; they
+          are cherished members of our families. We are passionate about
+          creating a world where every pet thrives, and their human companions
+          find joy and fulfillment in their relationships.
+        </motion.p>
 
-      {/* Our Mission Section */}
-      <section className="mb-12">
-        <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">
-          Our Mission
-        </h3>
-        <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
-          Our mission is to provide unparalleled care, fostering a deep
-          connection between pets and their families. We strive to be the
-          trusted partner in every pet owner's journey, combining compassion,
-          excellence, and innovation to ensure the best for your pets.
-        </p>
-      </section>
+        <motion.p
+          className="text-gray-600 text-base sm:text-lg leading-relaxed font-semibold"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.8 }}
+        >
+          Our mission is to empower pet owners with the knowledge, resources,
+          and support they need to provide the best possible life for their
+          furry, feathered, or scaled friends. We strive to build a thriving
+          community where pet owners can connect, share experiences, and learn
+          from each other.
+        </motion.p>
+
+        <motion.p
+          className="text-gray-600 text-base sm:text-lg leading-relaxed font-semibold"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.8 }}
+        >
+          We are committed to providing high-quality information, products, and
+          services that enhance the well-being of pets. Whether you're a
+          seasoned pet owner or just starting your journey, we are here to
+          support you every step of the way.
+        </motion.p>
+      </motion.div>
     </div>
   );
 };

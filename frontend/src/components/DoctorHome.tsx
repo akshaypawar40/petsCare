@@ -26,7 +26,7 @@ const DoctorHome: React.FC = () => {
             <Link to={`/doctor/${doctor._id}`}>
               <div
                 key={doctor.email}
-                className="bg-gray-800 text-white rounded-lg shadow-lg p-6"
+                className="bg-white text-gray-900 rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition-transform duration-300 p-6"
               >
                 <img
                   src={doctor.profileImage}
@@ -36,10 +36,10 @@ const DoctorHome: React.FC = () => {
                 <h3 className="text-xl font-semibold text-center mb-2">
                   {doctor.name}
                 </h3>
-                <p className="text-center text-gray-300 mb-4">
+                <p className="text-center text-gray-600 text-sm leading-relaxed mb-3">
                   Specialization: {doctor.specialization}
                 </p>
-                <p className="text-center text-gray-300 mb-2">
+                <p className="text-center text-gray-600 text-sm leading-relaxed mb-2">
                   Contact: {doctor.contactNumber}
                 </p>
               </div>

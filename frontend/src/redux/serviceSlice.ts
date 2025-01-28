@@ -7,17 +7,21 @@ interface Service {
   description: string;
   price: number;
   title:string;
+  image:string,
 }
+
 
 // Define the initial state for the slice
 interface ServiceState {
   allServices: Service[];
   SingleService:Service | null;
+  addService : Service | null
 }
 
 const initialState: ServiceState = {
   allServices: [], // Initialize as an empty array
   SingleService:null,
+  addService:null,
 };
 
 const serviceSlice = createSlice({
@@ -30,11 +34,16 @@ const serviceSlice = createSlice({
     getSingleService(state, action){
         state.SingleService= action.payload;
         localStorage.setItem("SingleService", JSON.stringify(state.SingleService));
+    },
+    addService:(state,action)=>{
+        state.addService= action.payload;
+        // state.allServices= state.allServices.push(action.payload);
+
     }
   },
 });
 
-export const { getServices,getSingleService } = serviceSlice.actions;
+export const { getServices,getSingleService,addService } = serviceSlice.actions;
 export default serviceSlice.reducer;
 
 

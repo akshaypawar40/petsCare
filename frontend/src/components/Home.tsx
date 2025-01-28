@@ -34,11 +34,11 @@ const Home: React.FC = () => {
   }, [dispatch]);
 
   const handleCreatePet = () => {
-    navigate("/create-pet");
+    navigate("/createPet");
   };
 
   const handleAddServices = () => {
-    navigate("/add-services");
+    navigate("create/Service");
   };
 
   const isAdmin = userInfo && userInfo.email === "admin@gmail.com";
