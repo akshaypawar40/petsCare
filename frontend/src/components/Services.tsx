@@ -34,7 +34,7 @@ const Services: React.FC = () => {
           allServices.map((service: Service) => (
             <Link to={`/service/${service._id}`}>
               <div
-                key={service.id}
+                key={service._id}
                 className="bg-white text-gray-900 rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition-transform duration-300"
               >
                 <div className="p-6">

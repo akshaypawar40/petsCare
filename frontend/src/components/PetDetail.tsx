@@ -48,7 +48,7 @@ const PetDetail: React.FC<Pet> = () => {
           <img
             src={pet.image}
             alt={pet.name}
-            className="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+            className="w-full size-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
           />
         </div>
 

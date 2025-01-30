@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPets } from "../services/petsService";
-import PetsCard from "../components/PetsCard";
 import { RootState } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
+
+const PetsCard = lazy(() => import("../components/PetsCard"));
 
 interface Pet {
   _id: string;
@@ -75,7 +76,9 @@ const Home: React.FC = () => {
       {/* Pets Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
         {petsList.map((pet: Pet) => (
-          <PetsCard key={pet._id} {...pet} />
+          <Suspense fallback={"...Loading"}>
+            <PetsCard key={pet._id} {...pet} />
+          </Suspense>
         ))}
       </div>
 
