@@ -47,6 +47,7 @@ const SingleService: React.FC = () => {
           <p className="text-center text-blue-400 font-semibold mb-4">
             Price: ${SingleService.price}
           </p>
+
           {userInfo?.isAdmin && (
             <div className="flex justify-between items-center">
               <button

@@ -71,6 +71,14 @@ const SingleDoctor: React.FC = () => {
         <p className="text-center text-gray-600 text-xl  leading-relaxed mb-3">
           <strong>Contact:</strong> {singleDoctor.contactNumber}
         </p>
+
+        {!userInfo.isAdmin && (
+          <div className="flex justify-center items-center">
+            <button className=" text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Book Appointnent
+            </button>
+          </div>
+        )}
         {userInfo.isAdmin && (
           <div className="flex justify-between items-center">
             <button

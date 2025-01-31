@@ -58,7 +58,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full border rounded px-3 py-2 text-gray-700"
+                className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
               />
             </div>
 
@@ -73,7 +73,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full border rounded px-3 py-2 text-gray-700"
+                className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
               />
             </div>
 
@@ -88,7 +88,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 value={formData.specialization}
                 onChange={handleChange}
                 required
-                className="w-full border rounded px-3 py-2 text-gray-700"
+                className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
               />
             </div>
 
@@ -103,7 +103,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 value={formData.contactNumber}
                 onChange={handleChange}
                 required
-                className="w-full border rounded px-3 py-2 text-gray-700"
+                className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
               />
             </div>
 
@@ -118,7 +118,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 value={formData.notes}
                 onChange={handleChange}
                 required
-                className="w-full border rounded px-3 py-2 text-gray-700"
+                className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
               />
             </div>
           </div>
@@ -128,13 +128,13 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 text-sm"
             >
               Add Doctor
             </button>
