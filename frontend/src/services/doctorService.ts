@@ -5,6 +5,7 @@ import {
   editDoctor,
   getAllDoctors,
   getSingleDoctor,
+  createDoctor as newDoctor,
 } from "../redux/doctorSlice";
 
 const API_URL = "/api/doctors/";
@@ -55,7 +56,7 @@ export const createDoctor =
       };
 
       const response = await axios.post(`${API_URL}create`, doctor, config);
-      dispatch(createDoctor(response.data.doctor));
+      dispatch(newDoctor(response.data.doctor));
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {

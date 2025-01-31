@@ -146,6 +146,3 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 };
 
 export default AddDoctorModal;
-function dispatch(arg0: { payload: any; type: "doctor/createDoctor" }) {
-  throw new Error("Function not implemented.");
-}

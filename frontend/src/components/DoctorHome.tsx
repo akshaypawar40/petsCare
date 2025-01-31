@@ -14,11 +14,12 @@ const DoctorHome: React.FC = () => {
   // Fetch doctors list from the Redux store
   const { doctorsList } = useSelector((state: RootState) => state.doctor);
   const { userInfo } = useSelector((state: RootState) => state.user);
+  const { addDoctor } = useSelector((state: RootState) => state.doctor);
 
   useEffect(() => {
     // Dispatch action to fetch doctors list
     dispatch(fethDoctorsList);
-  }, [dispatch]);
+  }, [dispatch, addDoctor]);
 
   return (
     <div className="container mx-auto px-6 py-8">
