@@ -59,7 +59,7 @@ export const createService =
       const response = await axios.post(`${API_URL}create`, service, config);
 
       dispatch(addService(response.data.service));
-      return response.data;
+      return response.data.service;
     } catch (error: any) {
       console.error(
         "Failed to add service:",

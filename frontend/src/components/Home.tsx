@@ -1,9 +1,10 @@
-import React, { useEffect, lazy, Suspense } from "react";
+import React, { useEffect, lazy, Suspense, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPets } from "../services/petsService";
 import { RootState } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
+import AddDoctorModal from "./AddDoctorModal";
 
 const PetsCard = lazy(() => import("../components/PetsCard"));
 

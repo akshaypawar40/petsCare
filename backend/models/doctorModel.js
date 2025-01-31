@@ -21,7 +21,8 @@ const doctorSchema = mongoose.Schema(
     },
     profileImage: {
       type: String,
-      required: false, // Optional in case the profile image is not provided
+      required: false, // Optional
+      default: "/images/default-image.jpg", // Default image URL
     },
     notes: {
       type: String,

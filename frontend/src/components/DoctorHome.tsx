@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { fethDoctorsList } from "../services/doctorService";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import AddDoctorModal from "./AddDoctorModal";
+import { Plus } from "lucide-react";
 
 const DoctorHome: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [open, setOpen] = useState(false);
 
   // Fetch doctors list from the Redux store
   const { doctorsList } = useSelector((state: RootState) => state.doctor);
+  const { userInfo } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     // Dispatch action to fetch doctors list
@@ -17,9 +22,27 @@ const DoctorHome: React.FC = () => {
 
   return (
     <div className="container mx-auto px-6 py-8">
-      <h2 className="text-3xl font-semibold text-center text-white mb-12">
+      <h2 className="text-3xl font-semibold text-center text-gray-800 mb-12">
         Meet Our Doctors
       </h2>
+
+      {/* Display "Create Doctor" button for admin users */}
+      {userInfo?.email === "admin@gmail.com" && (
+        <motion.div
+          className="flex justify-end mb-8"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+        >
+          <button
+            onClick={() => setOpen(true)}
+            className="bg-indigo-600 text-white font-medium mb-8 p-2 md:px-5 sm:p-3 text-sm sm:text-lg flex items-center justify-center rounded-lg shadow-md hover:bg-indigo-700 transition duration-200 ease-in-out transform hover:scale-105"
+          >
+            <Plus className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+            Add Doctor
+          </button>
+        </motion.div>
+      )}
       {doctorsList && doctorsList.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {doctorsList.map((doctor: any) => (
@@ -45,6 +68,8 @@ const DoctorHome: React.FC = () => {
               </div>
             </Link>
           ))}
+
+          <AddDoctorModal isOpen={open} onClose={() => setOpen(false)} />
         </div>
       ) : (
         <p className="text-center text-gray-300">No Doctors Found</p>

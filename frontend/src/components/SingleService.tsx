@@ -56,7 +56,7 @@ const SingleService: React.FC = () => {
                 Edit
               </button>
               <button
-                onClick={handleDelete} // Handle delete click
+                onClick={handleDelete}
                 className="text-sm bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               >
                 Delete
