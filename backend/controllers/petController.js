@@ -7,17 +7,8 @@ import generateToken from "../utils/generateToken.js"; // Assuming you have this
 // @access  Private
 const createPet = asyncHandler(async (req, res) => {
   try {
-    const {
-      name,
-      type,
-      breed,
-      age,
-      gender,
-      vaccinationRecords,
-      isNeutered,
-      notes,
-      petImage,
-    } = req.body;
+    const { name, type, breed, age, gender, isNeutered, notes, image } =
+      req.body;
 
     if (!name || !type || !breed || !age || !gender) {
       return res.status(400).json({
@@ -33,10 +24,9 @@ const createPet = asyncHandler(async (req, res) => {
       breed,
       age,
       gender,
-      vaccinationRecords,
       isNeutered,
       notes,
-      petImage,
+      image,
     });
 
     const createdPet = await pet.save();

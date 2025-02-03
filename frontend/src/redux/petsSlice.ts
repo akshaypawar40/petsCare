@@ -1,8 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface Pet {
+  _id: string;
+  name: string;
+  type: string;
+  breed: string;
+  age: string;
+  gender: string;
+  notes: string;
+  image: string;
+}
+
+interface petState {
+  petsList: Pet[];
+  pet: Pet | null;
+}
+
+const initialState: petState = {
   petsList: [],
-  pet:null
+  pet: null,
 };
 
 const petsSlice = createSlice({
@@ -10,13 +26,13 @@ const petsSlice = createSlice({
   initialState,
   reducers: {
     setPets: (state, action) => {
-      state.petsList= action.payload;
+      state.petsList = action.payload;
       localStorage.setItem("petsList", JSON.stringify(state.petsList)); // Save to local storage
     },
     setSinglePet: (state, action) => {
       state.pet = action.payload;
       localStorage.setItem("pet", JSON.stringify(state.pet)); // Save to local storage
-    }
+    },
   },
 });
 

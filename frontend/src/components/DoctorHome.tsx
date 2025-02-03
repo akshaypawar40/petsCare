@@ -22,9 +22,9 @@ const DoctorHome: React.FC = () => {
   }, [dispatch, addDoctor]);
 
   return (
-    <div className="container mx-auto px-6 py-8">
-      <h2 className="text-3xl font-semibold text-center text-gray-800 mb-12">
-        Meet Our Doctors
+    <div className="container mx-auto px-6 py-8 mt-20">
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-gray-800 mb-10">
+        Our Doctors
       </h2>
 
       {/* Display "Create Doctor" button for admin users */}

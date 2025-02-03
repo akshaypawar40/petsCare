@@ -1,7 +1,6 @@
 import axios from "axios";
-import { setPets, setSinglePet} from "../redux/petsSlice";
-import { AppDispatch } from "../redux/store";
-
+import { setPets, setSinglePet } from "../redux/petsSlice";
+import { AppDispatch, RootState } from "../redux/store";
 
 const API_URL = "/api/pets/";
 
@@ -18,16 +17,16 @@ export const fetchPets = async (dispatch: AppDispatch) => {
   }
 };
 
-
-export const fetchSinglePet = (petId: string) => async (dispatch: AppDispatch) => {
-  try {
-    const response = await axios.get(`${API_URL}${petId}`);
-    dispatch(setSinglePet(response.data.data)); // Dispatch the pet data to the Redux store
-    return response.data;
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || "Failed to fetch pet");
+export const fetchSinglePet =
+  (petId: string) => async (dispatch: AppDispatch) => {
+    try {
+      const response = await axios.get(`${API_URL}${petId}`);
+      dispatch(setSinglePet(response.data.data)); // Dispatch the pet data to the Redux store
+      return response.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || "Failed to fetch pet");
+      }
+      throw new Error("An unexpected error occurred");
     }
-    throw new Error("An unexpected error occurred");
-  }
-};
+  };

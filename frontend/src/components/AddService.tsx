@@ -69,7 +69,7 @@ const AddService: React.FC = () => {
               value={formData.title}
               onChange={handleChange}
               required
-              className="font-normal text-sm shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
             />
           </div>
 
@@ -86,7 +86,7 @@ const AddService: React.FC = () => {
               value={formData.description}
               onChange={handleChange}
               required
-              className="font-normal text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
             />
           </div>
 
@@ -104,7 +104,7 @@ const AddService: React.FC = () => {
               value={formData.price}
               onChange={handleChange}
               required
-              className="font-normal text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
             />
           </div>
 
