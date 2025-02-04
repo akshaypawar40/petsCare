@@ -44,6 +44,7 @@ const App: FC = () => {
                 notes={""}
                 image={""}
                 type={""}
+                gender={""}
               />
             }
           />

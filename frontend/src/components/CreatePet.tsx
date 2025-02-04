@@ -1,262 +1,217 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createPet } from "../services/petsService";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { AppDispatch } from "../redux/store";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import motion for animations
 
 const CreatePet: React.FC = () => {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [breed, setBreed] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [notes, setNotes] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { userInfo } = useSelector((state: RootState) => state.user);
+  const [formData, setFormData] = useState<{
+    name: string;
+    type: string;
+    breed: string;
+    age: string;
+    gender: string;
+    notes: string;
+    image: File | null;
+  }>({
+    name: "",
+    type: "",
+    breed: "",
+    age: "",
+    gender: "",
+    notes: "",
+    image: null,
+  });
 
-  // Handle Image Selection
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file)); // Preview image before upload
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
     }
   };
 
-  // Upload Image
-  const handleImageUpload = async () => {
-    if (!image) {
-      alert("Please select an image first.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("name", name);
-    formData.append("type", type);
-    formData.append("breed", breed);
-    formData.append("age", age);
-    formData.append("gender", gender);
-    formData.append("notes", notes);
-
-    try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/upload/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      );
-      console.log("Uploaded Image Response:", data);
-      const uploadedImageUrl = data.imageUrl || data;
-      setImageUrl(uploadedImageUrl); // Save image URL for later form submission
-      alert("Image uploaded successfully!");
-    } catch (error) {
-      console.error("Image Upload Error:", error);
-      alert("Failed to upload image.");
-    }
-  };
-
-  // Submit Pet Details
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!name || !type || !breed || !age || !gender) {
-      alert("All required fields must be filled.");
-      return;
-    }
-
     try {
-      if (!userInfo) {
-        console.error("No authentication token found!");
-        alert("You need to be logged in to create a pet.");
-        return;
+      let imageUrl = "";
+      if (formData.image) {
+        const formDataImage = new FormData();
+        formDataImage.append("image", formData.image);
+
+        const uploadResponse = await axios.post(
+          "/api/uploads/",
+          formDataImage,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        imageUrl = uploadResponse.data.filePath;
       }
 
-      if (!imageUrl) {
-        alert("Please upload an image before submitting.");
-        return;
-      }
+      const petData = { ...formData, image: imageUrl };
 
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`, // Include the JWT token
+      // Dispatch the createPet action
+      dispatch(createPet(petData));
+
+      // Show success toast
+      toast.success("Pet Created !", {
+        style: {
+          fontSize: "14px",
+          padding: "8px",
+          minWidth: "200px",
+          fontFamily: "Arial Black",
+          fontWeight: "bolder",
         },
-      };
+      });
 
-      const { data } = await axios.post(
-        "http://localhost:5000/api/pets/create",
-        {
-          name,
-          type,
-          breed,
-          age,
-          gender,
-          notes,
-          image: imageUrl, // Send uploaded image URL
-        },
-        config
-      );
+      navigate("/");
 
-      alert("Pet created successfully!");
-      console.log("Created Pet:", data);
-      console.log(imageUrl, "image");
+      // Reset form
+      setFormData({
+        name: "",
+        type: "",
+        breed: "",
+        age: "",
+        gender: "",
+        notes: "",
+        image: null,
+      });
     } catch (error) {
       console.error("Error creating pet:", error);
-      alert("Failed to create pet.");
+      alert("Failed to create pet. Please try again.");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-6 mt-20 mb-8 w-full">
-      <div className="bg-white p-6 max-w-2xl mx-auto rounded-lg p-6 shadow-lg w-full transform transition-all hover:scale-105 hover:shadow-2xl">
-        <h2 className="text-2xl font-extrabold text-center text-gray-800 mb-4">
+    <motion.div
+      className="flex justify-center items-center min-h-screen px-4 py-8 w-full mt-12"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mt-12"
+        whileHover={{ scale: 1.03 }}
+      >
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
           Create Pet
         </h2>
+        <form
+          className="space-y-3 mt-12 px-12 border-gray-200"
+          onSubmit={handleSubmit}
+        >
+          <motion.input
+            type="text"
+            name="name"
+            placeholder="Pet Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+          <motion.select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <option value="">Select Type</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Other">Other</option>
+          </motion.select>
+          <motion.input
+            type="text"
+            name="breed"
+            placeholder="Breed"
+            value={formData.breed}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          />
+          <motion.input
+            type="number"
+            name="age"
+            placeholder="Age"
+            value={formData.age}
+            onChange={handleChange}
+            required
+            min="0"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          />
+          <motion.select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </motion.select>
+          <motion.textarea
+            name="notes"
+            placeholder="Additional Notes"
+            value={formData.notes}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          ></motion.textarea>
+          <motion.input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full text-sm px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Pet Name and Pet Type in one row */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Pet Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 ">
-                Pet Type
-              </label>
-              <select
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                required
-                className="w-full px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-              >
-                <option value="" disabled>
-                  Select Type
-                </option>
-                <option value="Dog">Dog</option>
-                <option value="Cat">Cat</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Breed and Age in one row */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Breed
-              </label>
-              <input
-                type="text"
-                value={breed}
-                onChange={(e) => setBreed(e.target.value)}
-                required
-                className="w-full px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Age (in years)
-              </label>
-              <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                required
-                min="0"
-                className="w-full px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-              />
-            </div>
-          </div>
-
-          {/* Gender and Neutered Checkbox in one row */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Gender
-              </label>
-              <select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                required
-                className="w-full px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-              >
-                <option value="" disabled>
-                  Select Gender
-                </option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Image Upload */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Upload Image
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className=" px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-            />
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="mt-2 rounded-md w-full h-40 object-cover text-sm"
-              />
-            )}
-            <button
-              type="button"
-              onClick={handleImageUpload}
-              className="ml-5 bg-blue-500 text-white p-2 mt-2 rounded-lg text-sm"
-            >
-              Upload Image
-            </button>
-          </div>
-
-          {/* Notes */}
-          <div>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={3}
-              className="w-full px-4 py-2 mt-1 border rounded-lg text-sm font-normal"
-              placeholder="Additional Notes"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div className="text-right">
-            <button
-              type="submit"
-              className=" bg-teal-600 text-white p-2 px-3 rounded-lg text-sm"
-            >
-              Add Pet
-            </button>
-          </div>
+          <motion.button
+            type="submit"
+            className="p-8 text-sm bg-teal-500 text-white py-2 rounded-md hover:bg-teal-600 focus:outline-none"
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.3 }}
+          >
+            Add Pet
+          </motion.button>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPets } from "../services/petsService";
+import { fetchPets, updatePet } from "../services/petsService";
 import { AppDispatch, RootState } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 

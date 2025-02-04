@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { fetchSinglePet } from "../services/petsService";
+import { deletePet, fetchSinglePet, updatePet } from "../services/petsService";
 import { RootState, AppDispatch } from "../redux/store";
+import EditPetModal from "./EditPetModal";
 
 interface Pet {
   _id: string;
@@ -10,6 +11,7 @@ interface Pet {
   breed: string;
   age: number;
   notes: string;
+  gender: String;
   image: string;
   type: string;
 }
@@ -30,7 +32,7 @@ const PetDetail: React.FC<Pet> = () => {
     if (petId) {
       dispatch(fetchSinglePet(petId)); // Dispatch the action to fetch the pet by ID
     }
-  }, [dispatch, petId]); // Adding dependencies to the useEffect to re-run when `petId` changes
+  }, [dispatch, petId, updatePet]); // Adding dependencies to the useEffect to re-run when `petId` changes
 
   // Handle loading state
   if (isLoading) {
@@ -43,7 +45,14 @@ const PetDetail: React.FC<Pet> = () => {
       <div className="text-center text-xl text-red-500">Pet not found</div>
     );
   }
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    try {
+      dispatch(deletePet(pet._id));
+      navigate("/");
+    } catch (error: any) {
+      console.error("Error deleting service:", error);
+    }
+  };
 
   return (
     <>
@@ -67,6 +76,9 @@ const PetDetail: React.FC<Pet> = () => {
               <div className="text-lg text-gray-600 mb-6 space-y-4">
                 <p className="font-semibold text-gray-800">
                   <span className="text-teal-600">Breed:</span> {pet.breed}
+                </p>
+                <p className="font-semibold text-gray-800">
+                  <span className="text-teal-600">Gender:</span> {pet.gender}
                 </p>
                 <p className="font-semibold text-gray-800">
                   <span className="text-teal-600">Age:</span> {pet.age} years
@@ -103,6 +115,11 @@ const PetDetail: React.FC<Pet> = () => {
             )}
           </div>
         </div>
+        <EditPetModal
+          pet={pet}
+          isOpen={isOpen}
+          onClose={() => setisOpen(false)}
+        />
       </div>
       {/* Button Section */}
       <div className=" mt-6 mb-6 text-left ">

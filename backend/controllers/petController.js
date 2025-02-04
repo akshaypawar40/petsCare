@@ -7,8 +7,7 @@ import generateToken from "../utils/generateToken.js"; // Assuming you have this
 // @access  Private
 const createPet = asyncHandler(async (req, res) => {
   try {
-    const { name, type, breed, age, gender, isNeutered, notes, image } =
-      req.body;
+    const { name, type, breed, age, gender, notes, image } = req.body;
 
     if (!name || !type || !breed || !age || !gender) {
       return res.status(400).json({
@@ -24,7 +23,6 @@ const createPet = asyncHandler(async (req, res) => {
       breed,
       age,
       gender,
-      isNeutered,
       notes,
       image,
     });
@@ -99,17 +97,7 @@ const getPetById = asyncHandler(async (req, res) => {
 // @access  Private
 const updatePet = asyncHandler(async (req, res) => {
   try {
-    const {
-      name,
-      type,
-      breed,
-      age,
-      gender,
-      vaccinationRecords,
-      isNeutered,
-      notes,
-      petImage,
-    } = req.body;
+    const { name, type, breed, age, gender, notes } = req.body;
 
     const pet = await Pet.findById(req.params.id);
 
@@ -132,10 +120,8 @@ const updatePet = asyncHandler(async (req, res) => {
     pet.breed = breed || pet.breed;
     pet.age = age || pet.age;
     pet.gender = gender || pet.gender;
-    pet.vaccinationRecords = vaccinationRecords || pet.vaccinationRecords;
-    pet.isNeutered = isNeutered !== undefined ? isNeutered : pet.isNeutered;
     pet.notes = notes || pet.notes;
-    pet.petImage = petImage || pet.petImage;
+    // pet.image = petimage || pet.image;
 
     const updatedPet = await pet.save();
     res.status(200).json({
