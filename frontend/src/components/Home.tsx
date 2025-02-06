@@ -24,13 +24,10 @@ const Home: React.FC = () => {
   const { petsList } = useSelector((state: RootState) => state.pets);
   const { userInfo } = useSelector((state: RootState) => state.user);
 
-  const [search, setSearch] = useState<string>("");
-
   useEffect(() => {
     const fetchPetsData = async () => {
       try {
         await dispatch(fetchPets);
-        console.log("Fetched Pets Data:", petsList);
       } catch (error: any) {
         console.error("Error fetching pets:", error.message);
       }
@@ -60,14 +57,6 @@ const Home: React.FC = () => {
           </p>
         </div>
       </div>
-      {/* <input
-          type="string"
-          value={search}
-          className="bg-white p-3 border border-gray-400 rounded-lg text-sm outline-none w-full lg:w-[25vw] mt-3 md:mt-0"
-          onChange={() => setSearch(e.target.value)}
-          placeholder="Search by Name"
-        /> */}
-      {/* Admin Buttons */}
 
       {/* Pets Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-8">

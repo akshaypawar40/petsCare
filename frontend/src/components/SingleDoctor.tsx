@@ -61,14 +61,14 @@ const SingleDoctor: React.FC = () => {
         <p className="text-center text-gray-700 text-xl font-semibold text-center mb-2">
           <strong>Email:</strong> {singleDoctor.email}
         </p>
-        <p className="text-center text-gray-600 text-sm leading-relaxed mb-3">
+        <p className="text-center text-gray-700 text-sm font-semibold leading-relaxed mb-2">
           <strong className="">Specialization:</strong>{" "}
           {singleDoctor.specialization}
         </p>
-        <p className="text-center text-gray-600 text-sm leading-relaxed mb-3">
+        <p className="text-center text-gray-700 text-sm font-semibold leading-relaxed mb-2">
           <strong>Notes:</strong> {singleDoctor.notes}
         </p>
-        <p className="text-center text-gray-600 text-xl  leading-relaxed mb-3">
+        <p className="text-center text-gray-700 text-xl font-semibold  leading-relaxed mb-5">
           <strong>Contact:</strong> {singleDoctor.contactNumber}
         </p>
 

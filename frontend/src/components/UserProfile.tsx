@@ -65,30 +65,34 @@ const UserProfile = () => {
   // If userInfo is available, display the profile
   return (
     <div className="flex justify-center items-center min-h-screen mt-9">
-      <div className="bg-white p-8 md:p-16 rounded-xl shadow-lg w-full max-w-md transform transition-all hover:scale-105 hover:shadow-2xl">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md transform transition-all hover:scale-105 hover:shadow-2xl">
         <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-800">
           User Profile
         </h2>
 
         <div className="mb-6">
-          <strong className="block text-sm font-medium text-gray-700 mb-1">
+          <strong className="block text-sm font-bold text-gray-700 mb-1">
             Full Name
           </strong>
-          <p className="text-lg text-gray-800">{userInfo?.name}</p>
+          <p className="text-lg text-gray-800 text-sm font-normal">
+            {userInfo?.name}
+          </p>
         </div>
 
         <div className="mb-6">
-          <strong className="block text-sm font-medium text-gray-700 mb-1">
+          <strong className="block text-sm font-bold text-gray-700 mb-1">
             Email Address
           </strong>
-          <p className="text-lg text-gray-800">{userInfo?.email}</p>
+          <p className="text-lg text-gray-800 text-sm font-normal">
+            {userInfo?.email}
+          </p>
         </div>
 
         <div className="mb-6">
-          <strong className="block text-sm font-medium text-gray-700 mb-1">
+          <strong className="block text-sm font-bold text-gray-700 mb-1">
             Admin Status
           </strong>
-          <p className="text-lg text-gray-800">
+          <p className="text-lg text-gray-800 text-sm font-normal">
             {userInfo?.isAdmin ? "Yes" : "No"}
           </p>
         </div>
@@ -96,9 +100,9 @@ const UserProfile = () => {
         <div className="flex justify-between mt-6 space-x-4">
           <button
             onClick={handleEditProfile}
-            className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 pb-3 rounded-lg shadow-lg hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300"
+            className="w-full sm:w-auto bg-blue-500 text-white px-8 pb-3 rounded-lg shadow-lg hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300"
           >
-            <span className="font-medium text-lg">Edit Profile</span>
+            <span className="font-normal text-lg">Edit Profile</span>
           </button>
 
           <button

@@ -110,7 +110,7 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm"
+                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
                 />
               </div>
 
@@ -124,7 +124,7 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
                   value={formData.type}
                   onChange={handleChange}
                   required
-                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm"
+                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
                 />
               </div>
 
@@ -138,7 +138,7 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
                   value={formData.breed}
                   onChange={handleChange}
                   required
-                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm"
+                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
                 />
               </div>
 
@@ -152,7 +152,7 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
                   value={formData.age}
                   onChange={handleChange}
                   required
-                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm"
+                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
                 />
               </div>
 
@@ -166,11 +166,11 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
                   value={formData.gender}
                   onChange={handleChange}
                   required
-                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm"
+                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
                 />
               </div>
 
-              <div className="col-span-1 md:col-span-2">
+              <div className="col-span-1 md:col-span-2 mb-5">
                 <label className="block text-gray-700 text-sm font-bold mb-1">
                   Notes
                 </label>
@@ -180,7 +180,7 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
                   value={formData.notes}
                   onChange={handleChange}
                   required
-                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm"
+                  className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
                 />
               </div>
             </div>

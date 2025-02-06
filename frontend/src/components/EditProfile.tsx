@@ -33,8 +33,8 @@ const EditProfile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-12">
-      <div className="max-w-md w-full mx-auto bg-white p-8 rounded-lg shadow-md">
+    <div className="min-h-screen  py-12 px-4 sm:px-6 lg:px-8 mt-12">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg transform transition-all hover:scale-105 hover:shadow-2xl">
         <h2 className="text-2xl font-bold text-center mb-6">Update Profile</h2>
 
         {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
@@ -46,7 +46,7 @@ const EditProfile: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm  text-gray-700 mb-1 font-bold"
               htmlFor="name"
             >
               Name
@@ -56,14 +56,14 @@ const EditProfile: React.FC = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-normal"
               placeholder="Enter your name"
             />
           </div>
 
           <div className="mb-4">
             <label
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm  text-gray-700 mb-1 font-bold"
               htmlFor="email"
             >
               Email
@@ -73,14 +73,14 @@ const EditProfile: React.FC = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-normal"
               placeholder="Enter your email"
             />
           </div>
 
           <div className="mb-4">
             <label
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm  text-gray-700 mb-1 font-bold"
               htmlFor="password"
             >
               Password
@@ -90,14 +90,14 @@ const EditProfile: React.FC = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-normal"
               placeholder="Enter a new password"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200 text-sm font-normal"
           >
             Update Profile
           </button>

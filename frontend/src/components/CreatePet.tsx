@@ -99,7 +99,7 @@ const CreatePet: React.FC = () => {
 
   return (
     <motion.div
-      className="flex justify-center items-center min-h-screen px-4 py-8 w-full mt-12"
+      className="flex justify-center items-center min-h-screen px-4 py-8 w-full mt-12 pb-15"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -112,7 +112,7 @@ const CreatePet: React.FC = () => {
           Create Pet
         </h2>
         <form
-          className="space-y-3 mt-12 px-12 border-gray-200"
+          className="space-y-3 mt-5 px-12 border-gray-200"
           onSubmit={handleSubmit}
         >
           <motion.input
@@ -122,7 +122,7 @@ const CreatePet: React.FC = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 border text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -132,7 +132,7 @@ const CreatePet: React.FC = () => {
             value={formData.type}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -149,7 +149,7 @@ const CreatePet: React.FC = () => {
             value={formData.breed}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -162,7 +162,7 @@ const CreatePet: React.FC = () => {
             onChange={handleChange}
             required
             min="0"
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -172,7 +172,7 @@ const CreatePet: React.FC = () => {
             value={formData.gender}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -186,7 +186,7 @@ const CreatePet: React.FC = () => {
             placeholder="Additional Notes"
             value={formData.notes}
             onChange={handleChange}
-            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
@@ -195,7 +195,7 @@ const CreatePet: React.FC = () => {
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            className="w-full text-sm px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full text-sm px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 font-normal"
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -203,7 +203,7 @@ const CreatePet: React.FC = () => {
 
           <motion.button
             type="submit"
-            className="p-8 text-sm bg-teal-500 text-white py-2 rounded-md hover:bg-teal-600 focus:outline-none"
+            className="p-8 text-sm bg-teal-500 text-white py-2 rounded-md hover:bg-teal-600 focus:outline-none "
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.3 }}
           >

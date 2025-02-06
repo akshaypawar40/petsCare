@@ -80,7 +80,34 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * @desc Admin Login
+ * @route POST /api/users/admin/login
+ * @access Public
+ */
+const adminLogin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
+  const admin = await User.findOne({ email });
+
+  if (admin && (await admin.matchPassword(password))) {
+    if (!admin.isAdmin) {
+      res.status(401);
+      throw new Error("Not authorized as admin");
+    }
+
+    res.json({
+      _id: admin._id,
+      name: admin.name,
+      email: admin.email,
+      isAdmin: admin.isAdmin,
+      token: generateToken(admin._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+});
 
 /**
  * @desc Logout user
@@ -101,9 +128,6 @@ const logoutUser = asyncHandler(async (req, res) => {
     });
   }
 });
-
-
-
 
 /**
  * @desc Get user profile
@@ -185,16 +209,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-export { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile};
-
-
-
-
-
-
-
-
-
-
+export {
+  registerUser,
+  loginUser,
+  adminLogin,
+  logoutUser,
+  getUserProfile,
+  updateUserProfile,
+};

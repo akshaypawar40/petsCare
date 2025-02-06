@@ -17,6 +17,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["petOwner", "doctor", "admin"], // Allowed roles
+      default: "petOwner", // Default role is petOwner
+    },
     isAdmin: {
       type: Boolean,
       required: true,
@@ -25,7 +30,6 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
@@ -41,6 +45,3 @@ userSchema.pre("save", async function (next) {
 const User = mongoose.model("User", userSchema);
 
 export default User;
-
-
-

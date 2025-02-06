@@ -4,7 +4,7 @@ import Doctor from "../models/doctorModel.js";
 import generateToken from "../utils/generateToken.js"; // Assuming you have this utility function
 
 // @desc    Create a new doctor (Admin only)
-// @route   POST /api/doctors
+// @route   POST /api/doctors/create
 // @access  Private/Admin
 const createDoctor = asyncHandler(async (req, res) => {
   try {
@@ -160,4 +160,35 @@ const getDoctorById = asyncHandler(async (req, res) => {
   }
 });
 
-export { createDoctor, updateDoctor, deleteDoctor, getDoctors, getDoctorById };
+const loginDoctor = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  console.log("Received login request for:", email); // Debug log
+
+  const doctor = await Doctor.findOne({ email });
+
+  if (!doctor) {
+    console.log("Doctor not found in DB");
+    return res.status(401).json({ message: "Doctor not found" });
+  }
+
+  console.log("Doctor found:", doctor);
+
+  // If the doctor exists, return the response without password validation
+  res.json({
+    _id: doctor._id,
+    name: doctor.name,
+    email: doctor.email,
+    specialization: doctor.specialization,
+    token: generateToken(doctor._id),
+  });
+});
+
+export {
+  createDoctor,
+  updateDoctor,
+  deleteDoctor,
+  getDoctors,
+  getDoctorById,
+  loginDoctor,
+};
