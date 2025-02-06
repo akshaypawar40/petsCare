@@ -69,7 +69,7 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
           type: formData.type,
           breed: formData.breed, // Fix breed assignment
           age: formData.age,
-          //   gender: formData.gender,
+          gender: formData.gender,
           notes: formData.notes,
         })
       );
