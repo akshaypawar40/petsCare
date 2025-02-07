@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { cancelDoctor, fetchSingleDoctor } from "../services/doctorService";
 import EditDoctorModal from "./EditDoctorModal";
+import AppointmentModal from "./AppointmentModal";
 
 const SingleDoctor: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -12,6 +13,7 @@ const SingleDoctor: React.FC = () => {
   const { userInfo } = useSelector((state: RootState) => state.user);
 
   const [isOpen, setisOpen] = useState<boolean>(false);
+  const [BookAptisOpen, setBookAptisOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,7 +76,10 @@ const SingleDoctor: React.FC = () => {
 
         {!userInfo.isAdmin && (
           <div className="flex justify-center items-center">
-            <button className=" text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button
+              onClick={() => setBookAptisOpen(true)}
+              className=" text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
               Book Appointnent
             </button>
           </div>
@@ -101,6 +106,11 @@ const SingleDoctor: React.FC = () => {
         singleDoctor={singleDoctor}
         isOpen={isOpen}
         onClose={() => setisOpen(false)}
+      />
+      <AppointmentModal
+        singleDoctor={singleDoctor}
+        isOpen={BookAptisOpen}
+        onClose={() => setBookAptisOpen(false)}
       />
     </div>
   );
