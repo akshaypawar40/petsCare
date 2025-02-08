@@ -3,22 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUserProfile } from "../services/userService"; // Update this import to match your service file
 import { logout } from "../redux/userSlice";
-import { RootState } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
+import { getUserAppointmentsAsync } from "../services/appointmentService";
 
 const UserProfile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   // Retrieve user data from Redux store
   const { userInfo } = useSelector((state: RootState) => state.user);
-  const { bookAppointment } = useSelector(
-    (state: RootState) => state.appointment
-  );
+  const { appointments } = useSelector((state: RootState) => state.appointment);
   const { singleDoctor } = useSelector((state: RootState) => state.doctor);
+  console.log(singleDoctor, "singleDoctor");
 
   // Local state for handling loading/error states
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    dispatch(getUserAppointmentsAsync());
+  }, [dispatch]);
 
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -31,6 +34,8 @@ const UserProfile = () => {
         setLoading(false);
       }
     };
+
+    // loadUserProfile();
 
     if (!userInfo) {
       loadUserProfile(); // Fetch the user profile if not already available in Redux
@@ -68,8 +73,8 @@ const UserProfile = () => {
 
   // If userInfo is available, display the profile
   return (
-    <div className="flex justify-center items-center min-h-screen mt-21 mb-20">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md transform transition-all hover:scale-105 hover:shadow-2xl">
+    <div className="flex justify-center items-center min-h-screen mt-20 mb-20">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-xxl transform transition-all hover:scale-105 hover:shadow-2xl">
         <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-800">
           User Profile
         </h2>
@@ -116,58 +121,66 @@ const UserProfile = () => {
             <span className="font-medium text-lg">Logout</span>
           </button>
         </div>
-        {bookAppointment && singleDoctor && userInfo ? (
+
+        {appointments && appointments.length > 0 ? (
           <>
             <h2 className="text-xl text-center mt-6">My Appointments</h2>
-            <div className="overflow-hidden border border-gray-300 rounded-lg mt-4">
-              <table className="w-full border-collapse">
-                <tbody>
-                  <tr>
-                    <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                      Pet Owner
-                    </td>
-                    <td className="border px-4 py-2 text-sm font-normal">
-                      {userInfo.name}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                      Pet
-                    </td>
-                    <td className="border px-4 py-2 text-sm font-normal">
-                      {bookAppointment.pet}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                      Doctor
-                    </td>
-                    <td className="border px-4 py-2 text-sm font-normal">
-                      {singleDoctor.name}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                      Appointment Date
-                    </td>
-                    <td className="border px-4 py-2 text-sm font-normal">
-                      {bookAppointment.appointmentDate}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                      Status
-                    </td>
-                    <td className="border px-4 py-2 text-sm font-normal">
-                      {bookAppointment.status}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className=" flex justify-between align-center ">
+              {appointments.map((appointment, index) => (
+                <div
+                  key={index}
+                  className="overflow-hidden border border-gray-300 rounded-lg mt-4 mr-2"
+                >
+                  <table className="w-full border-collapse">
+                    <tbody>
+                      <tr>
+                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
+                          Pet Owner
+                        </td>
+                        <td className="border px-4 py-2 text-sm font-normal">
+                          {userInfo.name}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
+                          Pet
+                        </td>
+                        <td className="border px-4 py-2 text-sm font-normal">
+                          {appointment.pet?.name || "unknown"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
+                          Doctor
+                        </td>
+                        <td className="border px-4 py-2 text-sm font-normal">
+                          {singleDoctor?.name || "Unknown"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
+                          Date
+                        </td>
+                        <td className="border px-4 py-2 text-sm font-normal">
+                          {appointment.appointmentDate}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
+                          Status
+                        </td>
+                        <td className="border px-4 py-2 text-sm font-normal">
+                          {appointment.status}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              ))}
             </div>
           </>
         ) : (
-          <p className="mt-6 font-normal">No Appointments</p>
+          <p className="mt-6 font-normal text-center">No Appointments</p>
         )}
       </div>
     </div>

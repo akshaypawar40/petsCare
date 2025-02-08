@@ -6,10 +6,12 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import AddDoctorModal from "./AddDoctorModal";
 import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const DoctorHome: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch doctors list from the Redux store
   const { doctorsList } = useSelector((state: RootState) => state.doctor);
@@ -20,6 +22,10 @@ const DoctorHome: React.FC = () => {
     // Dispatch action to fetch doctors list
     dispatch(fethDoctorsList);
   }, [dispatch, addDoctor]);
+
+  const handleAptClick = () => {
+    navigate("/allApointments");
+  };
 
   return (
     <div className="container mx-auto px-6 py-8 mt-20">
@@ -41,6 +47,12 @@ const DoctorHome: React.FC = () => {
           >
             <Plus className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
             Add Doctor
+          </button>
+          <button
+            onClick={handleAptClick}
+            className=" ml-4 bg-indigo-600 text-white font-medium mb-8 p-2 md:px-5 sm:p-3 text-sm sm:text-lg flex items-center justify-center rounded-lg shadow-md hover:bg-indigo-700 transition duration-200 ease-in-out transform hover:scale-105"
+          >
+            Get All Appointments
           </button>
         </motion.div>
       )}

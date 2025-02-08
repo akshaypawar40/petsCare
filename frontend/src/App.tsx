@@ -19,6 +19,7 @@ import SingleDoctor from "./components/SingleDoctor";
 import AddService from "./components/AddService";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import AllAppointments from "./components/AllAppointments";
 
 const App: FC = () => {
   return (
@@ -68,6 +69,7 @@ const App: FC = () => {
           />
           <Route path="/doctor/:doc_id" element={<SingleDoctor />} />
           <Route path="create/Service" element={<AddService />} />
+          <Route path="allApointments" element={<AllAppointments />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
         <Footer />

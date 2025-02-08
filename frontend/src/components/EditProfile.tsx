@@ -34,7 +34,7 @@ const EditProfile: React.FC = () => {
 
   return (
     <div className="min-h-screen  py-12 px-4 sm:px-6 lg:px-8 mt-12">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-lg transform transition-all hover:scale-105 hover:shadow-2xl">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-xl transform transition-all hover:scale-105 hover:shadow-2xl">
         <h2 className="text-2xl font-bold text-center mb-6">Update Profile</h2>
 
         {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
