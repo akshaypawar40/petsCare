@@ -142,7 +142,7 @@ const AppointmentModal: React.FC<ModalProps> = ({
               <input
                 type="date"
                 name="appointmentDate"
-                value={formData.appointmentDate}
+                value={formData.appointmentDate.split("T")[0]}
                 onChange={handleChange}
                 required
                 className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"

@@ -1,15 +1,22 @@
-// controllers/doctorController.js
 import asyncHandler from "express-async-handler";
+import bcrypt from "bcryptjs";
 import Doctor from "../models/doctorModel.js";
-import generateToken from "../utils/generateToken.js"; // Assuming you have this utility function
+import generateToken from "../utils/generateToken.js";
 
 // @desc    Create a new doctor (Admin only)
 // @route   POST /api/doctors/create
 // @access  Private/Admin
 const createDoctor = asyncHandler(async (req, res) => {
   try {
-    const { name, email, specialization, contactNumber, profileImage, notes } =
-      req.body;
+    const {
+      name,
+      email,
+      password,
+      specialization,
+      contactNumber,
+      profileImage,
+      notes,
+    } = req.body;
 
     const doctorExists = await Doctor.findOne({ email });
 
@@ -20,13 +27,17 @@ const createDoctor = asyncHandler(async (req, res) => {
       });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const doctor = await Doctor.create({
       name,
       email,
+      password: hashedPassword,
       specialization,
       contactNumber,
       profileImage,
       notes,
+      isDoctor: true,
     });
 
     res.status(201).json({
@@ -160,28 +171,43 @@ const getDoctorById = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Doctor login
+// @route   POST /api/doctors/login
+// @access  Public
 const loginDoctor = asyncHandler(async (req, res) => {
-  const { email } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  console.log("Received login request for:", email); // Debug log
+    console.log("Received login request for:", email);
 
-  const doctor = await Doctor.findOne({ email });
+    const doctor = await Doctor.findOne({ email });
 
-  if (!doctor) {
-    console.log("Doctor not found in DB");
-    return res.status(401).json({ message: "Doctor not found" });
+    if (doctor && (await bcrypt.compare(password, doctor.password))) {
+      res.status(200).json({
+        statusCode: 200,
+        message: "Login successful",
+        doctor: {
+          _id: doctor._id,
+          name: doctor.name,
+          email: doctor.email,
+          specialization: doctor.specialization,
+          isDoctor: doctor.isDoctor,
+          token: generateToken(doctor._id),
+        },
+      });
+    } else {
+      console.log("Invalid email or password");
+      res.status(401).json({
+        statusCode: 401,
+        message: "Invalid email or password",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      statusCode: 500,
+      message: error.message,
+    });
   }
-
-  console.log("Doctor found:", doctor);
-
-  // If the doctor exists, return the response without password validation
-  res.json({
-    _id: doctor._id,
-    name: doctor.name,
-    email: doctor.email,
-    specialization: doctor.specialization,
-    token: generateToken(doctor._id),
-  });
 });
 
 export {

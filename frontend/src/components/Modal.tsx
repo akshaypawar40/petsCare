@@ -11,7 +11,7 @@ interface ModalProps {
     description: string;
     price: number;
   } | null;
-  isOpen: Boolean;
+  isOpen: boolean;
   onClose: () => void;
 }
 

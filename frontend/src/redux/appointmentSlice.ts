@@ -39,6 +39,9 @@ const appointmentSlice = createSlice({
     getAllAppointments: (state, action) => {
       state.allAppointments = action.payload;
     },
+    responseApt: (state, action) => {
+      state;
+    },
   },
 });
 

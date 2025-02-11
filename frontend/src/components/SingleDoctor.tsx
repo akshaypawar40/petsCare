@@ -48,6 +48,11 @@ const SingleDoctor: React.FC = () => {
     }
   };
 
+  const handleStatus = (status: "accepted" | "rejected") => {
+    if (status) {
+    }
+  };
+
   // Display the doctor's details
   return (
     <div className="container mx-auto px-6 py-8 mt-20">
@@ -100,6 +105,23 @@ const SingleDoctor: React.FC = () => {
             </button>
           </div>
         )}
+
+        {/* {userInfo.name.split(" ")[0] === "Dr." && ( */}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => handleStatus("accepted")}
+            className="text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Accept
+          </button>
+          <button
+            onClick={() => handleStatus("rejected")}
+            className="text-sm bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Reject
+          </button>
+        </div>
+        {/* )} */}
       </div>
 
       <EditDoctorModal

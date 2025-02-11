@@ -12,6 +12,7 @@ interface ModalProps {
     specialization: string;
     contactNumber: string;
     notes: string;
+    isDoctor: boolean;
   } | null;
   isOpen: Boolean;
   onClose: () => void;

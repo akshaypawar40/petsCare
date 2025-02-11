@@ -73,7 +73,7 @@ const Services: React.FC = () => {
                     {service.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <p className="text-lg font-bold text-green-500">
+                    <p className="text-lg font-bold text-indigo-500">
                       ${service.price}
                     </p>
                   </div>

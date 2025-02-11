@@ -8,6 +8,7 @@ interface doctor {
   profileImage: string;
   notes: string;
   contactNumber: string;
+  isDoctor: boolean;
 }
 
 interface doctorState {

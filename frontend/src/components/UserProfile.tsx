@@ -125,7 +125,7 @@ const UserProfile = () => {
         {appointments && appointments.length > 0 ? (
           <>
             <h2 className="text-xl text-center mt-6">My Appointments</h2>
-            <div className=" flex justify-between align-center ">
+            <div className=" flex justify-between align-center overflow-scroll">
               {appointments.map((appointment, index) => (
                 <div
                   key={index}
@@ -162,7 +162,11 @@ const UserProfile = () => {
                           Date
                         </td>
                         <td className="border px-4 py-2 text-sm font-normal">
-                          {appointment.appointmentDate}
+                          {appointment.appointmentDate
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")}
                         </td>
                       </tr>
                       <tr>

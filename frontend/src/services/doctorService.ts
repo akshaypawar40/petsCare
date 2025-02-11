@@ -5,7 +5,7 @@ import {
   editDoctor,
   getAllDoctors,
   getSingleDoctor,
-  createDoctor as newDoctor,
+  createDoctor,
 } from "../redux/doctorSlice";
 
 const API_URL = "/api/doctors/";
@@ -28,7 +28,7 @@ export const fetchSingleDoctor =
     try {
       const response = await axios.get(`${API_URL}${doc_id}`);
       dispatch(getSingleDoctor(response.data.doctor));
-      return response.data;
+      return response.data.doctor;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         throw new Error(
@@ -39,7 +39,7 @@ export const fetchSingleDoctor =
     }
   };
 
-export const createDoctor =
+export const createNewDoctor =
   (doctor: any) => async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       const { userInfo } = getState().user;
@@ -56,7 +56,7 @@ export const createDoctor =
       };
 
       const response = await axios.post(`${API_URL}create`, doctor, config);
-      dispatch(newDoctor(response.data.doctor));
+      dispatch(createDoctor(response.data.doctor));
       return response.data;
     } catch (error: any) {
       if (axios.isAxiosError(error)) {

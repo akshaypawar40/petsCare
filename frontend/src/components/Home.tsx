@@ -67,6 +67,20 @@ const Home: React.FC = () => {
         ))}
       </div>
 
+      <div className="flex justify-center flex-col items-center p-8 bg-gray-100 rounded-lg mt-10">
+        <h2 className="mb-10 text-3xl">Training a Dog by one of our Trainer</h2>
+        <iframe
+          width="600"
+          height="350"
+          src="https://www.youtube.com/embed/DkCHTlaFtio"
+          title="Pet Care Video"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="rounded-lg shadow-md"
+        ></iframe>
+      </div>
+
       {/* Call to Action for Admin */}
       {isAdmin && (
         <div className="text-center mt-5">

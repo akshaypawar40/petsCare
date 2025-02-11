@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createDoctor } from "../services/doctorService";
+import { createNewDoctor } from "../services/doctorService";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
@@ -27,7 +27,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const newDoctor = {
       ...formData,
     };
-    dispatch(createDoctor(newDoctor));
+    dispatch(createNewDoctor(newDoctor));
     navigate("/doctors");
     onClose();
   };
