@@ -23,7 +23,6 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Doctor added:", formData);
     const newDoctor = {
       ...formData,
     };

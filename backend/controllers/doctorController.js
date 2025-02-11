@@ -11,10 +11,10 @@ const createDoctor = asyncHandler(async (req, res) => {
     const {
       name,
       email,
-      password,
+      // password,
       specialization,
       contactNumber,
-      profileImage,
+      // profileImage,
       notes,
     } = req.body;
 
@@ -27,15 +27,15 @@ const createDoctor = asyncHandler(async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // const hashedPassword = await bcrypt.hash(password, 10);
 
     const doctor = await Doctor.create({
       name,
       email,
-      password: hashedPassword,
+      // password: hashedPassword,
       specialization,
       contactNumber,
-      profileImage,
+      // profileImage,
       notes,
       isDoctor: true,
     });
