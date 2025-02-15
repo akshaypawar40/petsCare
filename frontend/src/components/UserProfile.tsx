@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchUserProfile } from "../services/userService"; // Update this import to match your service file
+import { fetchUserProfile } from "../services/userService";
 import { logout } from "../redux/userSlice";
 import { AppDispatch, RootState } from "../redux/store";
+import { motion } from "framer-motion";
 import { getUserAppointmentsAsync } from "../services/appointmentService";
+import { User } from "lucide-react";
 
 const UserProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  // Retrieve user data from Redux store
   const { userInfo } = useSelector((state: RootState) => state.user);
   const { appointments } = useSelector((state: RootState) => state.appointment);
   const { singleDoctor } = useSelector((state: RootState) => state.doctor);
-  console.log(singleDoctor, "singleDoctor");
 
-  // Local state for handling loading/error states
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     dispatch(getUserAppointmentsAsync());
   }, [dispatch]);
@@ -27,167 +27,181 @@ const UserProfile = () => {
     const loadUserProfile = async () => {
       try {
         setLoading(true);
-        await fetchUserProfile(dispatch); // Fetch user profile
-        setLoading(false); // User profile fetched successfully
+        await fetchUserProfile(dispatch);
+        setLoading(false);
       } catch (err: any) {
         setError(err.message || "Failed to load user profile");
         setLoading(false);
       }
     };
 
-    // loadUserProfile();
-
     if (!userInfo) {
-      loadUserProfile(); // Fetch the user profile if not already available in Redux
+      loadUserProfile();
     } else {
-      setLoading(false); // If userInfo is already in store, no need to fetch again
+      setLoading(false);
     }
   }, [dispatch, userInfo]);
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch logout action to clear user info from Redux store
-    navigate("/login"); // Redirect to login page
+    dispatch(logout());
+    navigate("/login");
   };
 
   const handleEditProfile = () => {
-    navigate("/edit"); // Redirect to edit profile page
+    navigate("/edit");
   };
 
-  // Show loading spinner while data is being fetched
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="text-lg font-semibold text-gray-700">Loading...</div>
       </div>
     );
   }
 
-  // Show error message if an error occurred
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="text-red-600 text-lg font-semibold">{error}</div>
       </div>
     );
   }
 
-  // If userInfo is available, display the profile
   return (
-    <div className="flex justify-center items-center min-h-screen mt-20 mb-20">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-xxl transform transition-all hover:scale-105 hover:shadow-2xl">
-        <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-800">
+    <motion.div
+      className={`grid ${
+        userInfo.isAdmin || userInfo.isDoctor ? "grid-cols-1" : "md:grid-cols-3"
+      } gap-8 p-6 min-h-screen mt-12`}
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Left Side - Profile */}
+      <motion.div
+        className={`bg-white p-6 rounded-xl shadow-lg transform transition-all hover:shadow-2xl border-l-4 border-blue-500 mt-12 ${
+          userInfo.isAdmin || userInfo.isDoctor
+            ? "md:col-span-3 w-full"
+            : "md:col-span-1"
+        }`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7 }}
+      >
+        <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-800 mt-12">
           User Profile
         </h2>
-
-        <div className="mb-6">
-          <strong className="block text-sm font-bold text-gray-700 mb-1">
-            Full Name
-          </strong>
-          <p className="text-lg text-gray-800 text-sm font-normal">
-            {userInfo?.name}
-          </p>
+        <div className="space-y-4">
+          <div>
+            <strong className="block text-sm font-medium text-gray-700">
+              Full Name
+            </strong>
+            <p className="text-lg text-gray-800">{userInfo?.name}</p>
+          </div>
+          <div>
+            <strong className="block text-sm font-medium text-gray-700">
+              Email
+            </strong>
+            <p className="text-lg text-gray-800">{userInfo?.email}</p>
+          </div>
+          <div>
+            <strong className="block text-sm font-medium text-gray-700">
+              Admin Status
+            </strong>
+            <p className="text-lg text-gray-800">
+              {userInfo?.isAdmin ? "Yes" : "No"}
+            </p>
+          </div>
         </div>
 
-        <div className="mb-6">
-          <strong className="block text-sm font-bold text-gray-700 mb-1">
-            Email Address
-          </strong>
-          <p className="text-lg text-gray-800 text-sm font-normal">
-            {userInfo?.email}
-          </p>
-        </div>
-
-        <div className="mb-6">
-          <strong className="block text-sm font-bold text-gray-700 mb-1">
-            Admin Status
-          </strong>
-          <p className="text-lg text-gray-800 text-sm font-normal">
-            {userInfo?.isAdmin ? "Yes" : "No"}
-          </p>
-        </div>
-
-        <div className="flex justify-between mt-6 space-x-4">
-          <button
+        <div className="flex flex-col md:flex-row justify-between mt-6 space-y-3 md:space-y-0 md:space-x-4">
+          <motion.button
             onClick={handleEditProfile}
-            className="w-full sm:w-auto bg-blue-500 text-white px-8 pb-3 rounded-lg shadow-lg hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300"
+            className="w-full text-sm md:w-auto bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:from-green-600 hover:to-blue-600 transition-all duration-300"
           >
-            <span className="font-normal text-lg">Edit Profile</span>
-          </button>
-
-          <button
+            Edit Profile
+          </motion.button>
+          <motion.button
             onClick={handleLogout}
-            className="w-full sm:w-auto bg-red-500 text-white px-8 pb-3 rounded-lg shadow-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-300"
+            className="w-full text-sm md:w-auto bg-red-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-600 transition-all duration-300"
           >
-            <span className="font-medium text-lg">Logout</span>
-          </button>
+            Logout
+          </motion.button>
         </div>
+      </motion.div>
 
-        {appointments && appointments.length > 0 ? (
-          <>
-            <h2 className="text-xl text-center mt-6">My Appointments</h2>
-            <div className=" flex justify-between align-center overflow-scroll">
+      {/* Right Side - Appointments (Hidden for Admins & Doctors) */}
+      {!(userInfo.isAdmin || userInfo.isDoctor) && (
+        <motion.div
+          className="bg-white p-6 rounded-xl shadow-lg md:col-span-2 transform transition-all hover:shadow-2xl border-l-4 border-green-500 mt-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+        >
+          <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
+            My Appointments
+          </h2>
+
+          {appointments && appointments.length > 0 ? (
+            <motion.div
+              className="grid md:grid-cols-2 gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               {appointments.map((appointment, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="overflow-hidden border border-gray-300 rounded-lg mt-4 mr-2"
+                  className="bg-white p-5 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition-all"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  <table className="w-full border-collapse">
-                    <tbody>
-                      <tr>
-                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                          Pet Owner
-                        </td>
-                        <td className="border px-4 py-2 text-sm font-normal">
-                          {userInfo.name}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                          Pet
-                        </td>
-                        <td className="border px-4 py-2 text-sm font-normal">
-                          {appointment.pet?.name || "unknown"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                          Doctor
-                        </td>
-                        <td className="border px-4 py-2 text-sm font-normal">
-                          {singleDoctor?.name || "Unknown"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                          Date
-                        </td>
-                        <td className="border px-4 py-2 text-sm font-normal">
-                          {appointment.appointmentDate
-                            .split("T")[0]
-                            .split("-")
-                            .reverse()
-                            .join("/")}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="border px-4 py-2 text-sm font-bold bg-gray-100">
-                          Status
-                        </td>
-                        <td className="border px-4 py-2 text-sm font-normal">
-                          {appointment.status}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                  <h3 className="text-lg font-bold text-gray-800 mb-2">
+                    Appointment #{index + 1}
+                  </h3>
+                  <div className="text-gray-700 space-y-1 text-sm">
+                    <p>
+                      <strong>👤 Pet Owner:</strong> {userInfo.name}
+                    </p>
+                    <p>
+                      <strong>🐶 Pet:</strong>{" "}
+                      {appointment.pet?.breed || "Unknown"}
+                    </p>
+                    <p>
+                      <strong>🩺 Doctor:</strong>{" "}
+                      {singleDoctor?.name ||
+                        appointment?.doctor?.name ||
+                        "Unknown"}
+                    </p>
+                    <p>
+                      <strong>📅 Date:</strong>{" "}
+                      {appointment.appointmentDate
+                        .split("T")[0]
+                        .split("-")
+                        .reverse()
+                        .join("/")}
+                    </p>
+                    <p
+                      className={`font-semibold ${
+                        appointment.status === "Pending"
+                          ? "text-yellow-500"
+                          : "text-green-600"
+                      }`}
+                    >
+                      <strong>📌 Status:</strong> {appointment.status}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
-            </div>
-          </>
-        ) : (
-          <p className="mt-6 font-normal text-center">No Appointments</p>
-        )}
-      </div>
-    </div>
+            </motion.div>
+          ) : (
+            <p className="mt-4 text-center text-gray-500 text-lg">
+              No Appointments yet
+            </p>
+          )}
+        </motion.div>
+      )}
+    </motion.div>
   );
 };
 

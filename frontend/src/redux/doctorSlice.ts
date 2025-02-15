@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface doctor {
+  availability: string;
   _id: string;
   name: string;
   email: string;
+  password: string;
   specialization: string;
   profileImage: string;
   notes: string;
@@ -12,6 +14,7 @@ interface doctor {
 }
 
 interface doctorState {
+  Doctor: doctor;
   doctorsList: doctor[];
   singleDoctor: doctor | null;
   addDoctor: doctor | null;
@@ -20,6 +23,7 @@ interface doctorState {
 }
 
 const initialState: doctorState = {
+  Doctor: JSON.parse(localStorage.getItem("Doctor") || "null"),
   doctorsList: [],
   singleDoctor: null,
   addDoctor: null,
@@ -31,6 +35,10 @@ const doctorSlice = createSlice({
   name: "doctor",
   initialState,
   reducers: {
+    login: (state, action) => {
+      state.Doctor = action.payload;
+      localStorage.setItem("Doctor", JSON.stringify(action.payload));
+    },
     getAllDoctors: (state, action) => {
       state.doctorsList = action.payload;
     },

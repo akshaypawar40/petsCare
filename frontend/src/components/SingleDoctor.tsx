@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../redux/store";
 import { cancelDoctor, fetchSingleDoctor } from "../services/doctorService";
 import EditDoctorModal from "./EditDoctorModal";
 import AppointmentModal from "./AppointmentModal";
+import { motion } from "framer-motion";
 
 const SingleDoctor: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,49 +49,88 @@ const SingleDoctor: React.FC = () => {
     }
   };
 
-  const handleStatus = (status: "accepted" | "rejected") => {
-    if (status) {
-    }
+  const handleAptClick = () => {
+    navigate("/allApointments");
   };
 
   // Display the doctor's details
   return (
     <div className="container mx-auto px-6 py-8 mt-20">
+      {userInfo.isDoctor && (
+        <motion.div
+          className="flex justify-end mb-8"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+        >
+          <button
+            onClick={handleAptClick}
+            className=" ml-4 bg-indigo-600 text-white font-medium mb-8 p-2 md:px-5 sm:p-3 text-sm sm:text-lg flex items-center justify-center rounded-lg shadow-md hover:bg-indigo-700 transition duration-200 ease-in-out transform hover:scale-105"
+          >
+            Get My All Appointments
+          </button>
+        </motion.div>
+      )}
       <div className="bg-white max-w-md mx-auto text-white rounded-lg p-6 shadow-md hover:shadow-xl transform hover:scale-105 transition-transform duration-300">
         <img
           src={singleDoctor.profileImage}
           alt={singleDoctor.name}
           className="w-32 h-32 rounded-full mx-auto mb-4"
         />
-        <h2 className="text-xxl font-semibold text-center mb-4 text-gray-800">
-          {singleDoctor.name}
-        </h2>
-        <p className="text-center text-gray-700 text-xl font-semibold text-center mb-2">
-          <strong>Email:</strong> {singleDoctor.email}
-        </p>
-        <p className="text-center text-gray-700 text-sm font-semibold leading-relaxed mb-2">
-          <strong className="">Specialization:</strong>{" "}
-          {singleDoctor.specialization}
-        </p>
-        <p className="text-center text-gray-700 text-sm font-semibold leading-relaxed mb-2">
-          <strong>Notes:</strong> {singleDoctor.notes}
-        </p>
-        <p className="text-center text-gray-700 text-xl font-semibold  leading-relaxed mb-5">
-          <strong>Contact:</strong> {singleDoctor.contactNumber}
-        </p>
+        <table className="w-full border-collapse text-gray-800">
+          <tbody>
+            <tr>
+              <td className=" px-4 py-2 text-sm font-bold ">Name</td>
+              <td className=" px-4 py-2 text-sm font-normal">
+                {singleDoctor.name}
+              </td>
+            </tr>
+            <tr>
+              <td className=" px-4 py-2 text-sm font-bold ">Email</td>
+              <td className=" px-4 py-2 text-sm font-normal">
+                {singleDoctor.email}
+              </td>
+            </tr>
+            <tr>
+              <td className=" px-4 py-2 text-sm font-bold ">Specialization</td>
+              <td className=" px-4 py-2 text-sm font-normal">
+                {singleDoctor.specialization}
+              </td>
+            </tr>
+            <tr>
+              <td className=" px-4 py-2 text-sm font-bold ">Notes</td>
+              <td className=" px-4 py-2 text-sm font-normal">
+                {singleDoctor.notes}
+              </td>
+            </tr>
+            <tr>
+              <td className=" px-4 py-2 text-sm font-bold ">Availability</td>
+              <td className=" px-4 py-2 text-sm font-normal">
+                {singleDoctor.availability}
+              </td>
+            </tr>
+            <tr>
+              <td className=" px-4 py-2 text-sm font-bold ">Contact</td>
+              <td className=" px-4 py-2 text-sm font-normal">
+                {singleDoctor.contactNumber}
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-        {!userInfo.isAdmin && (
-          <div className="flex justify-center items-center">
+        {!userInfo.isAdmin && !userInfo.isDoctor && (
+          <div className="flex justify-center items-center mt-6">
             <button
               onClick={() => setBookAptisOpen(true)}
               className=" text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              Book Appointnent
+              Book Appointment
             </button>
           </div>
         )}
+
         {userInfo.isAdmin && (
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mt-6">
             <button
               onClick={() => setisOpen(true)}
               className="text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -105,23 +145,6 @@ const SingleDoctor: React.FC = () => {
             </button>
           </div>
         )}
-
-        {/* {userInfo.name.split(" ")[0] === "Dr." && ( */}
-        <div className="flex justify-between items-center">
-          <button
-            onClick={() => handleStatus("accepted")}
-            className="text-sm bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Accept
-          </button>
-          <button
-            onClick={() => handleStatus("rejected")}
-            className="text-sm bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Reject
-          </button>
-        </div>
-        {/* )} */}
       </div>
 
       <EditDoctorModal

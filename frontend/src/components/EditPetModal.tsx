@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { updatePet } from "../services/petsService";
+import { motion } from "framer-motion";
 
 interface PetProps {
   pet: {
@@ -89,12 +90,14 @@ const EditPetModal: React.FC<PetProps> = ({ pet, isOpen, onClose }) => {
           <h3 className="text-xl font-semibold text-gray-900 my-4 mt-2">
             Update Pet
           </h3>
-          <button
+          <motion.button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            whileHover={{ rotate: 360, scale: 1.2 }}
+            transition={{ duration: 0.7 }}
+            className="text-red-500"
           >
             &times;
-          </button>
+          </motion.button>
         </div>
 
         <div className="pb-0">

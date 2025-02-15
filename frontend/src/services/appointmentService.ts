@@ -94,3 +94,37 @@ export const getAllAppointmentsAsync =
       );
     }
   };
+
+export const DoctorResponse =
+  (appointmentId: string, mystatus: "Accepted" | "Rejected") =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+      const { userInfo } = getState().user;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`, // Include the JWT token
+        },
+      };
+      const response = await axios.put(
+        `${API_URL}respond`,
+        { appointmentId, mystatus },
+        config
+      );
+      console.log(
+        "Fetched All Appointments from API:",
+        response.data.appointments
+      ); // ✅ Debugging
+      dispatch(getAllAppointments(response.data.appointments)); // Store in Redux
+      return response.data.appointments;
+    } catch (error: any) {
+      console.error(
+        "Failed to add service:",
+        error.response?.data || error.message
+      );
+      throw new Error(
+        error.response?.data?.message ||
+          "Failed to add service. Please try again."
+      );
+    }
+  };

@@ -12,10 +12,10 @@ const doctorSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    // password: {
-    //   type: String,
-    //   required: true,
-    // },
+    password: {
+      type: String,
+      required: true,
+    },
     specialization: {
       type: String,
       required: true,
@@ -37,6 +37,10 @@ const doctorSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false, // Ensuring all entries default to a doctor
+    },
+    availability: {
+      type: String,
+      required: false, // Optional field
     },
   },
   { timestamps: true }

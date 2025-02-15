@@ -1,22 +1,15 @@
 import asyncHandler from "express-async-handler";
-import bcrypt from "bcryptjs";
 import Doctor from "../models/doctorModel.js";
 import generateToken from "../utils/generateToken.js";
+import bcrypt from "bcryptjs";
 
 // @desc    Create a new doctor (Admin only)
 // @route   POST /api/doctors/create
 // @access  Private/Admin
 const createDoctor = asyncHandler(async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      // password,
-      specialization,
-      contactNumber,
-      // profileImage,
-      notes,
-    } = req.body;
+    const { name, email, password, specialization, contactNumber, notes } =
+      req.body;
 
     const doctorExists = await Doctor.findOne({ email });
 
@@ -27,17 +20,17 @@ const createDoctor = asyncHandler(async (req, res) => {
       });
     }
 
-    // const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const doctor = await Doctor.create({
       name,
       email,
-      // password: hashedPassword,
+      password: hashedPassword, // Store hashed password
       specialization,
       contactNumber,
-      // profileImage,
       notes,
-      isDoctor: true,
+      isDoctor: true, // Ensure the user is a doctor
     });
 
     res.status(201).json({
@@ -128,7 +121,7 @@ const deleteDoctor = asyncHandler(async (req, res) => {
 // @access  Public
 const getDoctors = asyncHandler(async (req, res) => {
   try {
-    const doctors = await Doctor.find();
+    const doctors = await Doctor.find().select("-password"); // Exclude password
     res.json({
       success: true,
       message: "Doctors retrieved successfully",
@@ -148,7 +141,7 @@ const getDoctors = asyncHandler(async (req, res) => {
 // @access  Public
 const getDoctorById = asyncHandler(async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.params.id);
+    const doctor = await Doctor.findById(req.params.id).select("-password");
 
     if (!doctor) {
       return res.status(404).json({
@@ -171,41 +164,42 @@ const getDoctorById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Doctor login
+// @desc    Doctor Login
 // @route   POST /api/doctors/login
 // @access  Public
-const loginDoctor = asyncHandler(async (req, res) => {
-  try {
-    const { email, password } = req.body;
+const doctorLogin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-    console.log("Received login request for:", email);
+  // Find the doctor by email
+  const doctor = await Doctor.findOne({ email });
 
-    const doctor = await Doctor.findOne({ email });
-
-    if (doctor && (await bcrypt.compare(password, doctor.password))) {
-      res.status(200).json({
-        statusCode: 200,
-        message: "Login successful",
-        doctor: {
-          _id: doctor._id,
-          name: doctor.name,
-          email: doctor.email,
-          specialization: doctor.specialization,
-          isDoctor: doctor.isDoctor,
-          token: generateToken(doctor._id),
-        },
-      });
-    } else {
-      console.log("Invalid email or password");
-      res.status(401).json({
-        statusCode: 401,
-        message: "Invalid email or password",
+  // Check if doctor exists and verify password
+  if (doctor && (await bcrypt.compare(password, doctor.password))) {
+    if (!doctor.isDoctor) {
+      return res.status(401).json({
+        success: false,
+        message: "Not authorized as a doctor",
       });
     }
-  } catch (error) {
-    res.status(500).json({
-      statusCode: 500,
-      message: error.message,
+
+    res.json({
+      success: true,
+      message: "Doctor logged in successfully",
+      doctor: {
+        _id: doctor._id,
+        name: doctor.name,
+        email: doctor.email,
+        specialization: doctor.specialization,
+        contactNumber: doctor.contactNumber,
+        profileImage: doctor.profileImage,
+        isDoctor: doctor.isDoctor,
+        token: generateToken(doctor._id), // JWT token for authentication
+      },
+    });
+  } else {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid email or password",
     });
   }
 });
@@ -216,5 +210,5 @@ export {
   deleteDoctor,
   getDoctors,
   getDoctorById,
-  loginDoctor,
+  doctorLogin,
 };

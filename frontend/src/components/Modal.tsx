@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { updateService } from "../services/adminServices";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 interface ModalProps {
   singleService: {
@@ -63,12 +64,14 @@ const Modal: React.FC<ModalProps> = React.memo(
                 <h3 className="text-xl font-semibold text-gray-900 my-4 mt-2">
                   Update Service {/* Use singleService.title */}
                 </h3>
-                <button
+                <motion.button
                   onClick={onClose}
-                  className="text-gray-400 hover:text-gray-600"
+                  whileHover={{ rotate: 360, scale: 1.2 }}
+                  transition={{ duration: 0.7 }}
+                  className="text-red-500"
                 >
                   &times;
-                </button>
+                </motion.button>
               </div>
 
               <div className=" pb-0">

@@ -13,6 +13,7 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    password: "",
     specialization: "",
     contactNumber: "",
     notes: "",
@@ -70,6 +71,21 @@ const AddDoctorModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 type="email"
                 name="email"
                 value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
                 required
                 className="w-full border rounded px-3 py-2 text-gray-700 text-sm font-normal"

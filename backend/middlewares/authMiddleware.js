@@ -3,7 +3,9 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import Doctor from "../models/doctorModel.js";
 
-// Middleware to protect routes by verifying JWT token
+/**
+ * Middleware to protect routes by verifying JWT token
+ */
 const protect = asyncHandler(async (req, res, next) => {
   let token = null;
 
@@ -26,12 +28,15 @@ const protect = asyncHandler(async (req, res, next) => {
     // Verify token and decode it
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Attach user to the request object
-    req.user =
-      (await User.findById(decoded.id).select("-password")) ||
-      (await Doctor.findById(decoded.id).select("-password"));
+    // Attach user or doctor to the request object
+    const doctor = await Doctor.findById(decoded.id).select("-password");
+    const user = await User.findById(decoded.id).select("-password");
 
-    if (!req.user) {
+    if (doctor) {
+      req.doctor = doctor;
+    } else if (user) {
+      req.user = user;
+    } else {
       return res.status(401).json({
         success: false,
         message: "User not found. Invalid token.",
@@ -48,7 +53,9 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Middleware to check if the user is an admin
+/**
+ * Middleware to check if the user is an admin
+ */
 const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
@@ -60,16 +67,30 @@ const admin = (req, res, next) => {
   }
 };
 
-// Middleware to check if the user is an doctor
-const doctor = (req, res, next) => {
-  if (req.user && req.user.isDoctor) {
-    next();
-  } else {
-    res.status(403).json({
+/**
+ * Middleware to check if the user is a doctor
+ */
+const doctor = asyncHandler(async (req, res, next) => {
+  if (!req.doctor) {
+    return res.status(403).json({
       success: false,
-      message: "Access denied, Doctor privileges required",
+      message: "Access denied. Doctor privileges required.",
     });
   }
-};
+
+  // Fetch the doctor from the database (to ensure correctness)
+  const doctor = await Doctor.findById(req.doctor._id);
+
+  if (!doctor || !doctor.isDoctor) {
+    return res.status(403).json({
+      success: false,
+      message:
+        "Access denied. Only registered doctors can perform this action.",
+    });
+  }
+
+  req.doctor = doctor; // Ensure doctor data is attached to request
+  next();
+});
 
 export { protect, admin, doctor };

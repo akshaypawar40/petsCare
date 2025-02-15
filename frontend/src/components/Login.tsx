@@ -2,19 +2,26 @@ import React, { useState } from "react";
 import { loginUser } from "../services/userService";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import { LoginDoctor } from "../services/doctorService";
+import { AppDispatch } from "../redux/store";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [role, setRole] = useState("user"); // Default to user
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await loginUser(dispatch, { email, password });
+      if (role === "doctor") {
+        await dispatch(LoginDoctor({ email, password }));
+      } else {
+        await loginUser(dispatch, { email, password });
+      }
       navigate("/");
     } catch (err: any) {
       setError(err.message || "Invalid credentials");
@@ -40,6 +47,19 @@ const Login = () => {
             {error}
           </div>
         )}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Login as:
+          </label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+          >
+            <option value="user">User</option>
+            <option value="doctor">Doctor</option>
+          </select>
+        </div>
         <div className="mb-6">
           <label
             htmlFor="email"

@@ -11,6 +11,7 @@ const doctors = [
     notes:
       "Specializes in surgical procedures and emergency cases. Compassionate and thorough.",
     isDoctor: true,
+    availability: "Mon-Tue Evening 6:00-8:00 PM",
   },
   {
     name: "Dr. Priya Sharma",
@@ -22,6 +23,7 @@ const doctors = [
     notes:
       "Experienced in handling and treating exotic animals like reptiles and birds.",
     isDoctor: true,
+    availability: "Wed-Thu Evening 6:00-8:00 PM",
   },
   {
     name: "Dr. Arjun Mehta",
@@ -32,6 +34,7 @@ const doctors = [
     profileImage: "/images/male-doctor.png", // Replace with actual image URL or path
     notes: "Focuses on preventive care and general health checkups for pets.",
     isDoctor: true,
+    availability: "Fri-Sat Evening 6:00-8:00 PM",
   },
 ];
 
