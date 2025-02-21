@@ -56,7 +56,7 @@ const SingleDoctor: React.FC = () => {
   // Display the doctor's details
   return (
     <div className="container mx-auto px-6 py-8 mt-20">
-      {userInfo.isDoctor && (
+      {singleDoctor.name === userInfo.name && (
         <motion.div
           className="flex justify-end mb-8"
           initial={{ opacity: 0, x: 50 }}

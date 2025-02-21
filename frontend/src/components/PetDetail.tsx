@@ -59,11 +59,11 @@ const PetDetail: React.FC<Pet> = () => {
       <div className="max-w-3xl mx-auto p-12 shadow-2xl rounded-lg  bg-white mt-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Pet Image Section */}
-          <div className="flex w-80 h-96 justify-center items-center  rounded-lg overflow-hidden shadow-xl">
+          <div className="flex w-80 h-96 justify-center items-center  rounded-lg overflow-hidden shadow-xl ">
             <img
               src={pet.image}
               alt={pet.name}
-              className="w-80 h-96 size-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+              className="w-80 h-96 w-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
             />
           </div>
 

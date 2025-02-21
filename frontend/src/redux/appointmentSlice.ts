@@ -20,6 +20,7 @@ interface AppointmentState {
   appointments: Appointment[];
   allAppointments: Appointment[];
   responseApt: Appointment | null;
+  appointmentStatus: Appointment[];
 }
 
 const initialState: AppointmentState = {
@@ -27,6 +28,7 @@ const initialState: AppointmentState = {
   appointments: [],
   allAppointments: [],
   responseApt: null,
+  appointmentStatus: [],
 };
 
 const appointmentSlice = createSlice({
@@ -46,12 +48,20 @@ const appointmentSlice = createSlice({
     getAllAppointments: (state, action) => {
       state.allAppointments = action.payload;
     },
-    setAptResponse: (state, action) => {
-      state.responseApt = action.payload;
+    updateAppointmentStatus: (state, action) => {
+      state.appointmentStatus = action.payload;
+      localStorage.setItem(
+        "appointmentStatus",
+        JSON.stringify(state.appointmentStatus)
+      );
     },
   },
 });
 
-export const { bookApt, setAppointments, getAllAppointments, setAptResponse } =
-  appointmentSlice.actions;
+export const {
+  bookApt,
+  setAppointments,
+  getAllAppointments,
+  updateAppointmentStatus,
+} = appointmentSlice.actions;
 export default appointmentSlice.reducer;

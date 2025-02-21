@@ -68,7 +68,9 @@ const Home: React.FC = () => {
       </div>
 
       <div className="flex justify-center flex-col items-center p-8 bg-gray-100 rounded-lg mt-10">
-        <h2 className="mb-10 text-3xl">Training a Dog by one of our Trainer</h2>
+        <h2 className="mb-10 text-base sm:text-3xl">
+          Training a Dog by one of our Trainer
+        </h2>
         <iframe
           width="600"
           height="350"
@@ -77,7 +79,7 @@ const Home: React.FC = () => {
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
-          className="rounded-lg shadow-md"
+          className="rounded-lg shadow-md w-full sm:w-1/2"
         ></iframe>
       </div>
 

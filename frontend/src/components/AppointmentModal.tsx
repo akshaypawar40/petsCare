@@ -33,6 +33,7 @@ const AppointmentModal: React.FC<ModalProps> = ({
   const petsList = useSelector<RootState, Pet[]>(
     (state) => state.pets.petsList
   );
+  console.log(petsList, "petsList");
   const { bookAppointment } = useSelector(
     (state: RootState) => state.appointment
   );

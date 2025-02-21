@@ -4,6 +4,7 @@ import {
   bookApt,
   getAllAppointments,
   setAppointments,
+  updateAppointmentStatus,
 } from "../redux/appointmentSlice";
 
 const API_URL = "/api/appointment/";
@@ -95,8 +96,8 @@ export const getAllAppointmentsAsync =
     }
   };
 
-export const DoctorResponse =
-  (appointmentId: string, mystatus: "Accepted" | "Rejected") =>
+export const respondToAppointmentService =
+  (appointmentId: string, response: "Accepted" | "Rejected") =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       const { userInfo } = getState().user;
@@ -106,17 +107,14 @@ export const DoctorResponse =
           Authorization: `Bearer ${userInfo.token}`, // Include the JWT token
         },
       };
-      const response = await axios.put(
+      const { data } = await axios.put(
         `${API_URL}respond`,
-        { appointmentId, mystatus },
+        { appointmentId, response },
         config
       );
-      console.log(
-        "Fetched All Appointments from API:",
-        response.data.appointments
-      ); // ✅ Debugging
-      dispatch(getAllAppointments(response.data.appointments)); // Store in Redux
-      return response.data.appointments;
+      console.log("Fetched All Appointments from API:", data); // ✅ Debugging
+      dispatch(updateAppointmentStatus({ appointmentId, status: response })); // Store in Redux
+      return data;
     } catch (error: any) {
       console.error(
         "Failed to add service:",

@@ -165,13 +165,11 @@ const UserProfile = () => {
                     </p>
                     <p>
                       <strong>🐶 Pet:</strong>{" "}
-                      {appointment.pet?.breed || "Unknown"}
+                      {appointment.pet?.name || "Unknown"}
                     </p>
                     <p>
                       <strong>🩺 Doctor:</strong>{" "}
-                      {singleDoctor?.name ||
-                        appointment?.doctor?.name ||
-                        "Unknown"}
+                      {appointment?.doctor?.name || "Unknown"}
                     </p>
                     <p>
                       <strong>📅 Date:</strong>{" "}

@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import {
-  DoctorResponse,
   getAllAppointmentsAsync,
+  respondToAppointmentService,
 } from "../services/appointmentService";
 
 const AllAppointments: React.FC = () => {
@@ -19,11 +19,22 @@ const AllAppointments: React.FC = () => {
 
   // ✅ Get all appointments from Redux state
 
-  const handleStatus = (id: string, status: "Accepted" | "Rejected") => {
-    dispatch(DoctorResponse(id, status));
-  };
-
   const { userInfo } = useSelector((state: RootState) => state.user);
+
+  const handleStatus = async (
+    appointmentId: string,
+    response: "Accepted" | "Rejected"
+  ) => {
+    if (response !== "Accepted" && response !== "Rejected") {
+      console.error("Invalid response:", response);
+      return;
+    }
+    await dispatch(respondToAppointmentService(appointmentId, response));
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
 
   return (
     <div className="container mx-auto p-6 mt-20">
